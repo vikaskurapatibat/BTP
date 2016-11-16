@@ -1,0 +1,379 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\mode<presentation> {
+
+% The Beamer class comes with a number of default slide themes
+% which change the colors and layouts of slides. Below this is a list
+% of all the themes, uncomment each in turn to see what they look like.
+
+%\usetheme{default}
+\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+%\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+% As well as themes, the Beamer class has a number of color themes
+% for any slide theme. Uncomment each of these in turn to see how it
+% changes the colors of your current slide theme.
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+%\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[RCS]{Electromagnetic Simulations in FEKO} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+\author{Vikas Kurapati} % Your name
+\institute[IITB] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+{
+Department of Aerospace Engineering \\ % Your institution for the title page
+\medskip
+\textrm{IIT Bombay} % Your email address
+}
+\date{\today} % Date, can be changed to a custom date
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+
+\begin{frame}
+\frametitle{Overview} % Table of contents slide, comment this block out to remove it
+\tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\section{Theory}
+\frametitle{Theory}
+In performing electromagnetic simulations to be shown in the upcoming slides, FEKO software was used. FEKO software uses different schemes of which Method of Moments(MOM), Multilevel Fast Multipole Method(MLFMM), Physical Optics(PO) schemes were used as and when required according to the frequency of the problem being simulated.
+\end{frame}
+
+\begin{frame}
+\frametitle{Theory}
+\subsection{Definition of RCS}
+\textbf{RCS}: RCS(Radar Cross section is defined as a measure of reflective strength of a target defined as $4\pi$ times the ratio of the power per unit solid angle scattered  in a specified direction to the power per unit area in a plane wave incident on the scatterer from a specified direction. More precisely it is the limit of that ratio as the distance from the scatterer to the point where the scattered power is measure approaches infinity:
+\begin{equation}
+\sigma = \lim_{r\to\infty} 4\pi r^2 \frac{|\textbf{E}^{scat}|^2}{|\textbf{E}^{inc}|^2}
+\end{equation}
+Due to large dynamic range of RCS, a logarithmic power scale is most often used with the reference value of $\sigma_{ref} = 1 m^2$:
+\begin{equation}
+\sigma_{dBsm} = \sigma_{dBm^2} = 10log_{10}(\frac{\sigma_{m^2}}{\sigma_{ref}}) = 10log_{10}(\frac{\sigma_{m^2}}{1})
+\end{equation}
+\end{frame}
+\begin{frame}
+\frametitle{Theory}
+To find RCS of a particular body under a particular illumination, we need to solve Maxwell's equations and find the scattered portion of the illumination.\\
+The electromagnetic integral equations were obtained by Stratton Chu using the vector Green's Theorem in conjunction with Maxwell's equations. The total electric and magnetic fields are written as the sum of the incident and scattered fields:
+\begin{eqnarray}
+\textbf{E}^T = \textbf{E}^i + \textbf{E}^s \\
+\textbf{H}^T = \textbf{H}^i + \textbf{H}^s \\
+\end{eqnarray}
+\end{frame}
+
+\begin{frame}
+\frametitle{Theory}
+The scattered \textbf{E} and \textbf{H} are given by Stratton-Chu integrals:
+\begin{eqnarray}
+\textbf{E}^s = \oint_S[-j\omega\mu(\hat{n}\times\textbf{H})\psi + (\hat{n}\times\textbf{E})\times\nabla\psi + (\hat{n}.\textbf{E})\nabla\psi]dS \\
+\textbf{H}^s = -\oint_S[-j\omega\epsilon(\hat{n}\times\textbf{E})\psi - (\hat{n}\times\textbf{H})\times\nabla\psi + (\hat{n}.\textbf{H})\nabla\psi]dS
+\end{eqnarray}
+where $\psi$ is the free space Green's Function, $\omega$ is the radian frequency, $\mu$ and $\epsilon$ are the permeability and permittivity, $\hat{n}$ is the outward normal of the surface.
+\end{frame}
+\begin{frame}
+\frametitle{Theory}
+The tangential and perpendicular components of the surface fields are interpreted as currents and charges:
+\begin{eqnarray}
+\textbf{J} = \hat{n}\times\textbf{H}^T electric current \\
+\textbf{M} = -\hat{n}\times\textbf{E}^T magnetic current \\
+\rho = \epsilon\hat{n}.\textbf{E}^T electric charge \\
+\rho^* = \mu\hat{n}.\textbf{H}^T magnetic charge \\
+\end{eqnarray}
+The Green's function $\psi$ and its gradient $\nabla\psi$ are the mathematical equivalents of Huygen's wavelets i.e., each elemental surface current or charge is related to the scattered fields by means of the Huygen wavelet and the total field is simply the sum(integral) over all such surface current elements.
+\end{frame}
+\begin{frame}
+\frametitle{Theory}
+Mathematically, the Green's function relates an elemental source current or charge to the field at the observation point. The three dimensional Green's function in polar coordinates is an outward scalar spherical wave whose intensity falls off as inverse to distance:
+\begin{equation}
+\psi = \frac{e^{-jkr}}{4\pi R}
+\end{equation}
+where an $e^{j\omega t}$ time dependence is assumed and R is the distance from the elemental source to the observer. This gives the gradient to be:
+\begin{equation}
+\nabla\psi = (1 - jkR)\psi \frac{\hat{R}}{R}
+\end{equation}
+\end{frame}
+\begin{frame}
+\frametitle{Theory}
+The definition of Green's function is not valid when the source and field points coincide, as R = 0 $\implies \psi =\infty, \nabla\psi=\infty$. Self terms for currents and charges are derived from Maxwell's equations using the integral form of the curl and divergence equations with elemental loops(lines) and pill boxes.
+\begin{eqnarray}
+(\hat{n}\times\textbf{H})_{self} = \frac{\textbf{J}}{2},(\hat{n}\times\textbf{E})_{self} = \frac{\textbf{M}}{2} \\
+(\hat{n}.\textbf{E})_{self} = \frac{\rho}{2\epsilon},(\hat{n}.\textbf{H})_{self} = \frac{\rho^*}{2\mu}\\
+\end{eqnarray}
+\end{frame}
+\begin{frame}
+\frametitle{Theory}
+The implementation of Boundary conditions: \\
+The surface charge density is rewritten invoking the conservation of charge using the continuity equation:
+\begin{equation}
+(\hat{n}.\textbf{E}) = \frac{\rho}{\epsilon} = -\frac{j}{\omega\epsilon}(\nabla.\textbf{J})
+\end{equation}
+If the observation point is on the surface, where the field values are known from the boundary conditions, the resulting forms of the EFIE and MFIE are obtained as:
+\begin{eqnarray}
+\hat{n}\times\textbf{E}^T = \hat{n}\times(\textbf{E}^i + \textbf{E}^s) = 0 \\
+\hat{n}\times\textbf{H}^T = \hat{n}\times(\textbf{H}^i + \textbf{H}^s) = \textbf{J}
+\end{eqnarray}
+\end{frame}
+\begin{frame}
+\frametitle{Theory}
+This leads to: \\
+$\hat{n}\times\textbf{E}^i=-\hat{n}\times\textbf{E}^s $\\
+$=-\hat{n}\times\oint_S[-j\omega\mu(\hat{n}\times\textbf{H})\psi + (\hat{n}\times\textbf{E})\times\nabla\psi + (\hat{n}.\textbf{E})\nabla\psi]dS$\\
+$\hat{n}\times\textbf{H}^i = \textbf{J} -\hat{n}\times\textbf{H}^s$\\
+$ =\textbf{J} + \hat{n}\times\oint_S[-j\omega\epsilon(\hat{n}\times\textbf{E})\psi - (\hat{n}\times\textbf{H})\times\nabla\psi + (\hat{n}.\textbf{H})\nabla\psi]dS$
+\end{frame}
+
+\begin{frame}
+\frametitle{Theory}
+The procedures required to find the unknown current density involve:
+\begin{itemize}
+\item Expressing the unknown terms of a set of basis functions with unknown coefficients.
+\item Defining weighting or testing functions.
+\item Explicitly defining the interaction matrix elements
+\item Inverting the matrix
+\item Specifying the polarization and direction of the incident field and computing the resultant current density.
+\item Computing the scattered field radiated by these induced currents.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Theory}
+The unknown surface currents are typically expanded as:
+\begin{equation}
+\textbf{J} = \sum_{i=1}^N b_{x,i}f(t)\hat{u_x} + b_{y,i}f(t)\hat{u_y}
+\end{equation}
+where $\hat{u_x}$ and $\hat{u_y}$ are the orthogonal unit surface vectors, f(t) is the expansion function, b is the complex unknown current coefficient.\\
+For solving electric and magnetic field integral equations, an electric and a magnetic operator is defined. 
+\begin{eqnarray}
+L_E(\textbf{J}) = \hat{n}\times\int[-j\omega\nu\textbf{J}\psi -\frac{1}{j\omega\epsilon}(\nabla . \textbf{J}) \nabla \psi dS]\\
+L_H(\textbf{J}) = \frac{\textbf{J}}{2} - \hat{n} \times \int \textbf{J} \times \nabla \psi dS
+\end{eqnarray}
+The physical interpretation of these operators is that they give the tangential scattered field on the surface due to a surface current J.
+\end{frame}
+
+\begin{frame}
+\frametitle{Theory}
+\subsection{Method Of Moments(MOM)}
+\begin{itemize}
+\item Method of Moments:
+\end{itemize}
+With the aid of this operator notation, the solution is obtained by inserting  the series expansion of the unknown currents into the MFIE and calculating the constants.
+\begin{equation}
+L_H(\textbf{J}) = \sum_{i=1}^N b_i L_H (\textbf{f}_i) = \hat{n}\times \textbf{H}^i
+\label{Eq24}
+\end{equation}
+The next is to multiply equation \ref{Eq24} by a vector weighting function $\textbf{W}_j$ and integrate the result over each surface patch. 
+\begin{eqnarray}
+<\textbf{W}, L_H(J)> = \int W.L_H(\textbf{J})dS \\
+\implies 
+\end{eqnarray}
+\end{frame}
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Bullet Points}
+\begin{itemize}
+\item Lorem ipsum dolor sit amet, consectetur adipiscing elit
+\item Aliquam blandit faucibus nisi, sit amet dapibus enim tempus eu
+\item Nulla commodo, erat quis gravida posuere, elit lacus lobortis est, quis porttitor odio mauris at libero
+\item Nam cursus est eget velit posuere pellentesque
+\item Vestibulum faucibus velit a augue condimentum quis convallis nulla gravida
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Blocks of Highlighted Text}
+\begin{block}{Block 1}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
+\end{block}
+
+\begin{block}{Block 2}
+Pellentesque sed tellus purus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum quis magna at risus dictum tempor eu vitae velit.
+\end{block}
+
+\begin{block}{Block 3}
+Suspendisse tincidunt sagittis gravida. Curabitur condimentum, enim sed venenatis rutrum, ipsum neque consectetur orci, sed blandit justo nisi ac lacus.
+\end{block}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Multiple Columns}
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+
+\column{.45\textwidth} % Left column and width
+\textbf{Heading}
+\begin{enumerate}
+\item Statement
+\item Explanation
+\item Example
+\end{enumerate}
+
+\column{.5\textwidth} % Right column and width
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
+
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+\section{Second Section}
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Table}
+\begin{table}
+\begin{tabular}{l l l}
+\toprule
+\textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2}\\
+\midrule
+Treatment 1 & 0.0003262 & 0.562 \\
+Treatment 2 & 0.0015681 & 0.910 \\
+Treatment 3 & 0.0009271 & 0.296 \\
+\bottomrule
+\end{tabular}
+\caption{Table caption}
+\end{table}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Theorem}
+\begin{theorem}[Mass--energy equivalence]
+$E = mc^2$
+\end{theorem}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
+\frametitle{Verbatim}
+\begin{example}[Theorem Slide Code]
+\begin{verbatim}
+\begin{frame}
+\frametitle{Theorem}
+\begin{theorem}[Mass--energy equivalence]
+$E = mc^2$
+\end{theorem}
+\end{frame}\end{verbatim}
+\end{example}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Figure}
+Uncomment the code on this slide to include your own image from the same directory as the template .TeX file.
+%\begin{figure}
+%\includegraphics[width=0.8\linewidth]{test}
+%\end{figure}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
+\frametitle{Citation}
+An example of the \verb|\cite| command to cite within the presentation:\\~
+
+This statement requires citation \cite{p1}.
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{References}
+\footnotesize{
+\begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below
+\bibitem[Smith, 2012]{p1} John Smith (2012)
+\newblock Title of the publication
+\newblock \emph{Journal Name} 12(3), 45 -- 678.
+\end{thebibliography}
+}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\Huge{\centerline{The End}}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
