@@ -2,4 +2,8 @@
 \beamer@sectionintoc {1}{Theory}{3}{0}{1}
 \beamer@subsectionintoc {1}{1}{Definition of RCS}{4}{0}{1}
 \beamer@subsectionintoc {1}{2}{Method Of Moments(MOM)}{14}{0}{1}
-\beamer@sectionintoc {2}{Second Section}{18}{0}{2}
+\beamer@subsectionintoc {1}{3}{Fast Multipole Methods}{18}{0}{1}
+\beamer@subsubsectionintoc {1}{3}{1}{O(NlogN) method}{19}{0}{1}
+\beamer@subsubsectionintoc {1}{3}{2}{O(N) method}{20}{0}{1}
+\beamer@subsectionintoc {1}{4}{Physical Optics}{21}{0}{1}
+\beamer@sectionintoc {2}{Second Section}{27}{0}{2}

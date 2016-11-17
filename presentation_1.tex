@@ -239,8 +239,128 @@ L_H(\textbf{J}) = \sum_{i=1}^N b_i L_H (\textbf{f}_i) = \hat{n}\times \textbf{H}
 The next is to multiply equation \ref{Eq24} by a vector weighting function $\textbf{W}_j$ and integrate the result over each surface patch. 
 \begin{eqnarray}
 <\textbf{W}, L_H(J)> = \int W.L_H(\textbf{J})dS \\
-\implies 
+\implies \sum_{i=1}^N = b_i<\textbf{W}j,L_H(\textbf{f}_i> = <\textbf{W}_j,\hat{n}\times\textbf{H}^i>
 \end{eqnarray}
+for j = 1 to N
+\end{frame}
+\begin{frame}
+\frametitle{Theory}
+\begin{itemize}
+\item Method of Moments:
+\end{itemize}
+This set of linear equations for the unknown coefficients $b_i$ can be expressed in matrix notation as 
+\begin{equation}
+\overline{\overline{\overline{Z}}}\textbf{b} = \textbf{H}^i 
+\end{equation}
+where the matrix elements are given by
+\begin{equation}
+Z_{ij} = <\textbf{W}_j,L_H(\textbf{f}_i)>
+\end{equation}
+And the unknown current coefficients are expressed as a generalized column vector,
+\begin{equation}
+\textbf{b} = \begin{bmatrix}
+b_1 \\
+b_2 \\
+. \\
+. \\
+b_N\\
+\end{bmatrix}
+\end{equation}
+\end{frame}
+
+\begin{frame}
+\frametitle{Theory}
+The known incident fields, which represent the forcing function for the solution, are also expressed as a generalized column vector:
+\begin{equation}
+\textbf{H}_j^i = <\textbf{W}_j,\hat{n}\times\textbf{H}^i>
+\end{equation}
+The physical meaning of each term is clear. The matrix elements express the electrical interaction of each part of the scattering surface with every other part. The ijth matrix element is a measure of the fields produced at the ith surface patch created by a unit current located at the jth surface patch.\\
+The solution for the surface currents is formally given by 
+\begin{equation}
+[b] = [Z]^{-1}[H]
+\end{equation}
+This solution turns out to be of the order of $O(N^2)$ as the interaction of each element with every other element is calculated.
+\end{frame}
+\begin{frame}
+\frametitle{Theory}
+Once the currents are known for a given excitation, the scattered fields due to these currents may be computed from EFIE or MFIE expressions. 
+\begin{eqnarray}
+\overline{E^s} = \frac{-j\omega\mu}{4\pi R}e^{-jkR}\int_s [\textbf{J} - (\textbf{J}.\hat{R})]e^{+j\textbf{k}.\textbf{r}}dS \\
+\overline{H^s} = \frac{+j\omega\epsilon}{4\pi R}e^{-jkR}\int_s \sqrt{\frac{\mu}{\epsilon}}(\textbf{J}\times\textbf{R})e^{+j\textbf{k}.\textbf{r}}dS
+\end{eqnarray}
+\end{frame}
+
+\begin{frame}
+\frametitle{Theory}
+\subsection{Fast Multipole Methods}
+\begin{itemize}
+\item Fast Multipole Methods:
+\end{itemize}
+Fast Multipole methods are developed to improve the complexity of matrix vector products to O(N) in finite arithmetic i.e., for tolerance $\epsilon$. Dependence on tolerance is O($\frac{1}{\epsilon}$)\\
+Complexity of FMM = O($\frac{N}{\epsilon}$)\\
+This translates to O(N) or O(NlogN)\\
+\end{frame}
+
+\begin{frame}
+\frametitle{Theory}
+\subsubsection{O(NlogN) method}
+\begin{itemize}
+\item Fast Multipole Methods
+\begin{itemize}
+\item O(NlogN) scheme
+\end{itemize}
+\end{itemize}
+\begin{enumerate}
+\item Patches are contained within a cube which is subdivided in a recursive manner. In non adaptive case, each has eight children(a tree code is implemented in this scheme), 27 nearest neighbors and dimension of interaction list is 189.
+\item Now each cube is a cluster of patches and are treated separately and cluster cluster interactions along with cluster surface interactions and patch patch interactions are done to calculate the values of far field calculations.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Theory}
+\subsubsection{O(N) method}
+\begin{itemize}
+\item Fast Multipole Methods
+\begin{itemize}
+\item O(N) scheme
+\end{itemize}
+\end{itemize}
+\begin{enumerate}
+\item This scheme performs multipole expansions at finest level 1 from source positoins and strengths first.
+\item Form multipole expansions at coarser levels by merging by translating local expansions.
+\item Account for interactions at each level by converting a multipole expansion into a local expansion. 
+\item Transmit information to finer levels by translation of a local expansion.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Theory}
+\subsection{Physical Optics}
+The theory of physical optics overcomes the catastrophe of the infinities of flat and singly curved surfaces by approximating the induced surface fields and integrating them to obtain the scattered field. This methods is applicable at relatively high frequencies i.e., low electrical circumferences which make the objects look like they are flat.\\
+In this scheme, the gradient of Green's function is approximated by $\nabla \psi \approx ik\hat{s}\psi$ Hence, the Stratton Chu integrals can be written as 
+\begin{eqnarray}
+\overline{E^s} = ik\psi_0 \int_s \hat{s}\times[\hat{n}\times\overline{E} - Z_0\hat{s}\times(\hat{n}\times\hat{\overline{H}})]e^{ik\overline{r}.(\hat{i} - \hat{s})}dS \\
+\overline{H^s} = ik\psi_0 \int_s \hat{s}\times[\hat{n}\times\hat{H} + Y_0\hat{s}\times(\hat{n}\times\overline{E})]e^{ik\overline{r}.(\hat{i}-\hat{s})}dS
+\end{eqnarray}
+where $ Y_0 = \frac{1}{Z_0}$ is the admittance of free space.\\
+\end{frame}
+\begin{frame}
+\frametitle{Theory}
+We can approximate the total fields within the integrals by making the tangent plane approximation. That is, we assign the surface fields the values they would have if the body had been perfectly smooth and flat at the surface patch of integration dS. This approximation can be made for any body material, but we shall assume the body to be perfectly conducting. \\
+This makes the physical optics approximation of RCS to be:
+\begin{eqnarray}
+\overline{E_s} = -i2kZ_0H_0\psi_0 \int_s \hat{s}\times[\hat{s}\times(\hat{n}\times\overline{h_i})]e^{ik\overline{r}.(\hat{i} - \hat{s})}dS \\
+\sqrt{\sigma} = \lim_{R\rightarrow\infty} 2\sqrt{\pi}R\frac{\overline{E_s}.\hat{e_r}}{E_0}e^{ikR} \\
+\implies \sqrt{\sigma} = -i\frac{k}{\sqrt{\pi}}\int_s \hat{n}.\hat{e_r}\times\hat{h_i}e^{ik\overline{r}.(\hat{i} - \hat{s})}dS
+\end{eqnarray}
+\end{frame}
+\begin{frame}
+\frametitle{Theory}
+Upon evaluating the physical optics integral for the sphere, we obtain the result:
+\begin{equation}
+\sqrt{\sigma} = \sqrt{\pi}a[(1 + \frac{1}{i2ka})e^{-i2ka} - \frac{1}{i2ka}]
+\end{equation}
+where a is the radius of the sphere and the phase of the echo has been referenced to the center of the sphere. 
 \end{frame}
 %------------------------------------------------
 
