@@ -118,7 +118,7 @@ In performing electromagnetic simulations to be shown in the upcoming slides, FE
 \begin{frame}
 \frametitle{Theory}
 \subsection{Definition of RCS}
-\textbf{RCS}: RCS(Radar Cross section is defined as a measure of reflective strength of a target defined as $4\pi$ times the ratio of the power per unit solid angle scattered  in a specified direction to the power per unit area in a plane wave incident on the scatterer from a specified direction. More precisely it is the limit of that ratio as the distance from the scatterer to the point where the scattered power is measure approaches infinity:
+\textbf{RCS}: RCS(Radar Cross section) is defined as a measure of reflective strength of a target defined as $4\pi$ times the ratio of the power per unit solid angle scattered  in a specified direction to the power per unit area in a plane wave incident on the scatterer from a specified direction. More precisely it is the limit of that ratio as the distance from the scatterer to the point where the scattered power is measure approaches infinity:
 \begin{equation}
 \sigma = \lim_{r\to\infty} 4\pi r^2 \frac{|\textbf{E}^{scat}|^2}{|\textbf{E}^{inc}|^2}
 \end{equation}
@@ -240,7 +240,7 @@ L_H(\textbf{J}) = \sum_{i=1}^N b_i L_H (\textbf{f}_i) = \hat{n}\times \textbf{H}
 The next is to multiply equation \ref{Eq24} by a vector weighting function $\textbf{W}_j$ and integrate the result over each surface patch. 
 \begin{eqnarray}
 <\textbf{W}, L_H(J)> = \int W.L_H(\textbf{J})dS \\
-\implies \sum_{i=1}^N = b_i<\textbf{W}j,L_H(\textbf{f}_i> = <\textbf{W}_j,\hat{n}\times\textbf{H}^i>
+\implies \sum_{i=1}^N b_i<\textbf{W}j,L_H(\textbf{f}_i)> = <\textbf{W}_j,\hat{n}\times\textbf{H}^i>
 \end{eqnarray}
 for j = 1 to N
 \end{frame}
@@ -336,11 +336,14 @@ This translates to O(N) or O(NlogN)\\
 
 \begin{frame}
 \frametitle{Theory}
+\begin{itemize}
+ \item Physical Optics
+\end{itemize}
 \subsection{Physical Optics}
-The theory of physical optics overcomes the catastrophe of the infinities of flat and singly curved surfaces by approximating the induced surface fields and integrating them to obtain the scattered field. This methods is applicable at relatively high frequencies i.e., low electrical circumferences which make the objects look like they are flat.\\
+The theory of physical optics overcomes the catastrophe of the infinities of flat and singly curved surfaces by approximating the induced surface fields and integrating them to obtain the scattered field. This methods is applicable at relatively high frequencies.\\
 In this scheme, the gradient of Green's function is approximated by $\nabla \psi \approx ik\hat{s}\psi$ Hence, the Stratton Chu integrals can be written as 
 \begin{eqnarray}
-\overline{E^s} = ik\psi_0 \int_s \hat{s}\times[\hat{n}\times\overline{E} - Z_0\hat{s}\times(\hat{n}\times\hat{\overline{H}})]e^{ik\overline{r}.(\hat{i} - \hat{s})}dS \\
+\overline{E^s} = ik\psi_0 \int_s \hat{s}\times[\hat{n}\times\overline{E} - Z_0\hat{s}\times(\hat{n}\times\overline{H})]e^{ik\overline{r}.(\hat{i} - \hat{s})}dS \\
 \overline{H^s} = ik\psi_0 \int_s \hat{s}\times[\hat{n}\times\hat{H} + Y_0\hat{s}\times(\hat{n}\times\overline{E})]e^{ik\overline{r}.(\hat{i}-\hat{s})}dS
 \end{eqnarray}
 where $ Y_0 = \frac{1}{Z_0}$ is the admittance of free space.\\
@@ -434,7 +437,7 @@ This coating has no loss components.
 \end{frame}
 \begin{frame}
 \frametitle{Simulations in FEKO}
-Case 2 is of a dielectric coating with a loss term in electric permeability. The following are the parameters:
+Case 2 is of a dielectric coating with a loss term in electric permittivity. The following are the parameters:
 \begin{itemize}
 \item Wavelength = 1m
 \item Core radius = 0.5 m made up of perfectly conducting sphere
