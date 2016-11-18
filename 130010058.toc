@@ -12,3 +12,4 @@
 \beamer@subsectionintoc {2}{3}{Sphere coated with dielectric}{28}{0}{2}
 \beamer@subsectionintoc {2}{4}{Dielectric Sphere}{34}{0}{2}
 \beamer@sectionintoc {3}{References}{38}{0}{3}
+\beamer@sectionintoc {4}{Future Work}{39}{0}{4}
