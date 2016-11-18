@@ -78,6 +78,7 @@
 
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{subcaption}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -362,128 +363,171 @@ Upon evaluating the physical optics integral for the sphere, we obtain the resul
 \end{equation}
 where a is the radius of the sphere and the phase of the echo has been referenced to the center of the sphere. 
 \end{frame}
-%------------------------------------------------
+\begin{frame}
+\frametitle{Simulations in FEKO}
+\section{Simulations in FEKO}
+Using the above mentioned schemes already pre-programmed in the software, FEKO is used to calculate RCS of sphere under different conditions and validated against the theoretical values available.
+\end{frame}
+\begin{frame}
+\frametitle{Simulations in FEKO}
+\subsection{Backscatter of Sphere}
+The first problem simulated was to find the backscatter RCS of sphere and see it's variation with the electrical circumference. To vary the electrical circumference, various frequencies were used keeping the radius of sphere constant. Method of moments was used for ka = 0.05 to 5.0 and physical optics was used for ka = 5 to 10. 
+\begin{figure}[H]
+\centering
+\includegraphics[width = 0.7\textwidth]{backscatter.PNG}
+\caption{RCS(dBm2) vs Electrical Circumference}
+\end{figure}
+\end{frame}
 
 \begin{frame}
-\frametitle{Bullet Points}
+\subsection{RCS of sphere with viewing angle}
+\frametitle{Simulations in FEKO}
+The setup of this problem is that variation of RCS with bistatic angle in both H and E planes is studied and validated against theoretical values.
+The setup is as follows:
 \begin{itemize}
-\item Lorem ipsum dolor sit amet, consectetur adipiscing elit
-\item Aliquam blandit faucibus nisi, sit amet dapibus enim tempus eu
-\item Nulla commodo, erat quis gravida posuere, elit lacus lobortis est, quis porttitor odio mauris at libero
-\item Nam cursus est eget velit posuere pellentesque
-\item Vestibulum faucibus velit a augue condimentum quis convallis nulla gravida
+\item frequency = 70MHz
+\item Sphere is a perfect electric conductor
+\item Sphere is meshed with 458 triangles.
+\end{itemize}
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.5]{prob2.PNG}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Simulations in FEKO}
+\begin{figure}[H]
+\begin{subfigure}{0.48\textwidth}
+\centering
+\includegraphics[width = \linewidth]{eplane.PNG}
+\caption{RCS vs bistatic angle in E-plane}
+\end{subfigure}
+\begin{subfigure}{0.48\textwidth}
+\centering
+\includegraphics[width = \linewidth]{hplane.PNG}
+\caption{RCS vs bistatic angle in H-plane}
+\end{subfigure}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Simulations in FEKO}
+\subsection{Sphere coated with dielectric}
+The previous two simulations were run for a perfectly electrical conductor sphere. The following simulations now will have a dielectric coating over the sphere  or the sphere itself is made up of a dielectric material.\\ 
+Case 1 parameters are :
+\begin{itemize}
+\item Wavelength = 1 m
+\item Core radius = 0.3423 m made up of perfectly conducting sphere
+\item Material thickness = 0.1017 m of coating
+\item $\epsilon'= 4, \mu' = 1$  
+\end{itemize}
+This coating has no loss components.
+\end{frame}
+\begin{frame}
+\frametitle{Simulations in FEKO}
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{case1.PNG}
+\caption{RCS vs bistatic angle in H-plane}
+\end{figure}
+\end{frame}
+\begin{frame}
+\frametitle{Simulations in FEKO}
+Case 2 is of a dielectric coating with a loss term in electric permeability. The following are the parameters:
+\begin{itemize}
+\item Wavelength = 1m
+\item Core radius = 0.5 m made up of perfectly conducting sphere
+\item Material thickness = 0.1 m of coating
+\item $\epsilon' = 4, \epsilon'' = 1, \mu' = 1$
+\end{itemize}
+This coating has a loss component in electric permeability. There will be losses due to dissipation in electrical field amplitudes. 
+\end{frame}
+\begin{frame}
+\frametitle{Simulations in FEKO}
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.48\textwidth}
+\centering
+\includegraphics[width = \linewidth]{case2.PNG}
+\caption{RCS vs bistatic angle in E-plane}
+\end{subfigure}
+\begin{subfigure}{0.48\textwidth}
+\centering
+\includegraphics[width = \linewidth]{case2hplane.PNG}
+\caption{RCS vs bistatic angle in H-plane}
+\end{subfigure}
+\end{figure}
+\end{frame}
+\begin{frame}
+\frametitle{Simulations in FEKO}
+Case 3 is of a dielectric coating with a loss term in electric permeability. The following are the parameters:
+\begin{itemize}
+\item Wavelength = 1m
+\item Core radius = 0.8 m made up of perfectly conducting sphere
+\item Material thickness = 0.2 m of coating
+\item $\epsilon' = 1.6, \epsilon'' = 0.8, \mu' = 1$
+\end{itemize}
+This coating has a loss component in electric permeability. There will be losses due to dissipation in electrical field amplitudes. 
+\end{frame}
+
+\begin{frame}
+\frametitle{Simulations in FEKO}
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{coating3.PNG}
+\caption{RCS vs bistatic angle}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Simulations in FEKO}
+\subsection{Dielectric Sphere}
+Case 4 is of a dielectric sphere with no loss terms. The following are the parameters:
+\begin{itemize}
+\item Wavelength = 1m
+\item Core radius = 0.5 m made up of dielectric sphere
+\item $\epsilon' = 4, \mu' = 1$
 \end{itemize}
 \end{frame}
+\begin{frame}
+\frametitle{Simulations in FEKO}
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{case4.PNG}
+\caption{RCS vs bistatic angle}
+\end{figure}
+\end{frame}
 
+\begin{frame}
+\frametitle{Simulations in FEKO}
+Case 5 is of a dielectric sphere with loss terms in both electrical and magnetic permeability. The following are the parameters:
+\begin{itemize}
+\item Wavelength = 1m
+\item Core radius = 1 m made up of lossy dielectric sphere
+\item $\epsilon' = 1.6, \epsilon'' =0.8, \mu' = 0.8, \mu''=0.2$
+\end{itemize}
+This material has both magnetic and electrical losses causing the loss in amplitude of both the fields.
+\end{frame}
+\begin{frame}
+\frametitle{Simulations in FEKO}
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{case5.PNG}
+\caption{RCS vs bistatic angle}
+\end{figure}
+\end{frame}
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Blocks of Highlighted Text}
-\begin{block}{Block 1}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
-\end{block}
-
-\begin{block}{Block 2}
-Pellentesque sed tellus purus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum quis magna at risus dictum tempor eu vitae velit.
-\end{block}
-
-\begin{block}{Block 3}
-Suspendisse tincidunt sagittis gravida. Curabitur condimentum, enim sed venenatis rutrum, ipsum neque consectetur orci, sed blandit justo nisi ac lacus.
-\end{block}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Multiple Columns}
-\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
-
-\column{.45\textwidth} % Left column and width
-\textbf{Heading}
-\begin{enumerate}
-\item Statement
-\item Explanation
-\item Example
-\end{enumerate}
-
-\column{.5\textwidth} % Right column and width
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
-
-\end{columns}
-\end{frame}
-
-%------------------------------------------------
-\section{Second Section}
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Table}
-\begin{table}
-\begin{tabular}{l l l}
-\toprule
-\textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2}\\
-\midrule
-Treatment 1 & 0.0003262 & 0.562 \\
-Treatment 2 & 0.0015681 & 0.910 \\
-Treatment 3 & 0.0009271 & 0.296 \\
-\bottomrule
-\end{tabular}
-\caption{Table caption}
-\end{table}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Theorem}
-\begin{theorem}[Mass--energy equivalence]
-$E = mc^2$
-\end{theorem}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
-\frametitle{Verbatim}
-\begin{example}[Theorem Slide Code]
-\begin{verbatim}
-\begin{frame}
-\frametitle{Theorem}
-\begin{theorem}[Mass--energy equivalence]
-$E = mc^2$
-\end{theorem}
-\end{frame}\end{verbatim}
-\end{example}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Figure}
-Uncomment the code on this slide to include your own image from the same directory as the template .TeX file.
-%\begin{figure}
-%\includegraphics[width=0.8\linewidth]{test}
-%\end{figure}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
-\frametitle{Citation}
-An example of the \verb|\cite| command to cite within the presentation:\\~
-
-This statement requires citation \cite{p1}.
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
+\section{References}
 \frametitle{References}
 \footnotesize{
 \begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below
-\bibitem[Smith, 2012]{p1} John Smith (2012)
-\newblock Title of the publication
-\newblock \emph{Journal Name} 12(3), 45 -- 678.
+\bibitem{p1} Eugene F. Knott-Radar Cross Section-SciTech Publishing (2006)
+\bibitem{p1} UserManual new for FEKO
+\bibitem{p1} ExampleGuide 7.0 for FEKO
+\bibitem{p1} Code Development for Radar Absorbing Materials.
 \end{thebibliography}
 }
 \end{frame}
